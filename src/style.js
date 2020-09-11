@@ -1,4 +1,4 @@
-module.exports = function(styleApi) {
+module.exports = function (styleApi) {
   const {
     alias,
     and,
@@ -14,12 +14,12 @@ module.exports = function(styleApi) {
 
   return [
     // import "foo"
-    {match: and(hasNoMember, isAbsoluteModule)},
-    {separator: true},
+    { match: and(hasNoMember, isAbsoluteModule) },
+    { separator: true },
 
     // import "./foo"
-    {match: and(hasNoMember, isRelativeModule)},
-    {separator: true},
+    { match: and(hasNoMember, isRelativeModule) },
+    { separator: true },
 
     // import … from "fs";
     {
@@ -27,7 +27,7 @@ module.exports = function(styleApi) {
       sort: moduleName(naturally),
       sortNamedMembers: alias(unicode),
     },
-    {separator: true},
+    { separator: false },
 
     // import … from "foo";
     {
@@ -35,7 +35,7 @@ module.exports = function(styleApi) {
       sort: moduleName(naturally),
       sortNamedMembers: alias(unicode),
     },
-    {separator: true},
+    { separator: false },
 
     // import … from "./foo";
     // import … from "../foo";
@@ -44,6 +44,6 @@ module.exports = function(styleApi) {
       sort: [dotSegmentCount, moduleName(naturally)],
       sortNamedMembers: alias(unicode),
     },
-    {separator: true},
+    { separator: false },
   ];
-}
+};

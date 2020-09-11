@@ -20,7 +20,7 @@ function throwIf(condition, message) {
 function organizeImports(unsortedCode, extension) {
   // this throw exceptions up to prettier
   throwIf(
-    !["ts", "tsx"].includes(extension),
+    ![".ts", ".tsx"].includes(extension),
     `No configuration found for file type ${extension}`
   );
 
