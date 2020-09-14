@@ -8,7 +8,7 @@
     "url": "https://github.com/Spendesk/prettier-plugin-import-sort"
   },
   "author": "Spendesk <dev@spendesk.com>",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "dependencies": {
     "import-sort": "^6.0.0"
   },
