@@ -73,7 +73,7 @@ function parseImportDeclaration(code, sourceFile, importDeclaration) {
     importDeclaration.pos + importDeclaration.getLeadingTriviaWidth();
   const importEnd = importDeclaration.end;
 
-  if (firstJestMockPosition < importStart) {
+  if (firstJestMockPosition !== -1 && firstJestMockPosition < importStart) {
     return null;
   }
 
