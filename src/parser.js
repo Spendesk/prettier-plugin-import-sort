@@ -1,3 +1,4 @@
+const parser = require("prettier/parser-typescript");
 const typescript = require("typescript");
 
 function parseImports(code) {
@@ -45,7 +46,12 @@ function parseImports(code) {
   typescript.forEachChild(sourceFile, (node) => {
     switch (node.kind) {
       case typescript.SyntaxKind.ImportDeclaration: {
-        imports.push(parseImportDeclaration(code, sourceFile, node));
+        const parsed = parseImportDeclaration(code, sourceFile, node);
+
+        if (parsed) {
+          imports.push(parsed);
+        }
+
         break;
       }
       case typescript.SyntaxKind.ImportEqualsDeclaration: {
@@ -61,9 +67,15 @@ function parseImports(code) {
 }
 
 function parseImportDeclaration(code, sourceFile, importDeclaration) {
+  const firstJestMockPosition = code.indexOf("jest.mock");
+
   const importStart =
     importDeclaration.pos + importDeclaration.getLeadingTriviaWidth();
   const importEnd = importDeclaration.end;
+
+  if (firstJestMockPosition < importStart) {
+    return null;
+  }
 
   let start = importStart;
   let end = importEnd;

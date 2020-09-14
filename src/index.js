@@ -21,12 +21,7 @@ function organizeImports(unsortedCode) {
   throwIf(!style, `No style loaded`);
   throwIf(!parser, `No parser loaded`);
 
-  const sortResult = sortImports(
-    unsortedCode,
-    parser,
-    style,
-    `dummy${extension}`
-  );
+  const sortResult = sortImports(unsortedCode, parser, style, `dummy.ts`);
 
   return sortResult.code;
 }
@@ -42,4 +37,5 @@ const parsers = {
 
 module.exports = {
   parsers,
+  organizeImports,
 };
