@@ -17,13 +17,7 @@ function throwIf(condition, message) {
   }
 }
 
-function organizeImports(unsortedCode, extension) {
-  // this throw exceptions up to prettier
-  throwIf(
-    ![".ts", ".tsx"].includes(extension),
-    `No configuration found for file type ${extension}`
-  );
-
+function organizeImports(unsortedCode) {
   throwIf(!style, `No style loaded`);
   throwIf(!parser, `No parser loaded`);
 
@@ -41,7 +35,7 @@ const parsers = {
   typescript: {
     ...typescriptParsers.typescript,
     preprocess(text) {
-      return organizeImports(text, ".ts");
+      return organizeImports(text);
     },
   },
 };
