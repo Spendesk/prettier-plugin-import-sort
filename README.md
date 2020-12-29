@@ -44,3 +44,11 @@ In some tests, when we need to rely on `jest.mock()` for some modules, we someti
 [prettier]: https://github.com/prettier/prettier
 [import-sort]: https://github.com/renke/import-sort
 [prettier-plugin-import-sort]: https://github.com/ggascoigne/prettier-plugin-import-sort
+
+
+## Running the plugin's tests
+
+Since we want to use the installed `prettier` and `typescript` versions, and not add a new version as a dependency when using this plugin, those are listed as `peerDependencies`. This means that, when cloning this repository and running `yarn`, they won't get installed. `yarn test` will then fail.
+
+In order to run `yarn test` locally, one needs to copy the `prettier` and `typescript` lines from `peerDependencies` to `devDependencies` and run `yarn` again. Don't forget to remove these lines before committing! This is a well known issue that [many have been asking the yarn team to solve](https://github.com/yarnpkg/yarn/issues/1503).
+
