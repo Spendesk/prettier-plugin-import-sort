@@ -164,9 +164,11 @@ function parseImportDeclaration(code, sourceFile, importDeclaration) {
             name = element.propertyName.text;
           }
 
+          const elPrefixWithType = prefixWithType(element);
+
           imported.namedMembers.push({
-            name: fixMultipleUnderscore(name),
-            alias: fixMultipleUnderscore(alias),
+            name: elPrefixWithType(fixMultipleUnderscore(name)),
+            alias: elPrefixWithType(fixMultipleUnderscore(alias)),
           });
         }
       }
@@ -175,6 +177,10 @@ function parseImportDeclaration(code, sourceFile, importDeclaration) {
 
   return imported;
 }
+
+const prefixWithType = (element) => (name) => {
+  return element.isTypeOnly ? `type ${name}` : name;
+};
 
 // This hack circumvents a bug (?) in the TypeScript parser where a named
 // binding's name or alias that consists only of underscores contains an
