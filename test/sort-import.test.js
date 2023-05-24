@@ -6,14 +6,26 @@ describe(`Custom sort import`, () => {
       const originalFileContent = `import b from "b-dep";
 import a from "a-dep";
 import {z, d} from "c-dep";
-import {type foo, baz, type bar} from "z-dep";
+import {type foo, baz, type bar, type fooBar as fooBarAlias} from "z-dep";
+import {
+  type foo,
+  baz,
+  type bar,
+  type fooBar as fooBarAlias,
+} from "zz-dep";
 `;
       const result = organizeImports(originalFileContent);
 
       expect(result).toEqual(`import a from "a-dep";
 import b from "b-dep";
 import {d, z} from "c-dep";
-import {baz, type bar, type foo} from "z-dep";
+import {baz, type bar, type foo, type fooBar as fooBarAlias} from "z-dep";
+import {
+  baz,
+  type bar,
+  type foo,
+  type fooBar as fooBarAlias,
+} from "zz-dep";
 `);
     });
 

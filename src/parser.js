@@ -273,6 +273,26 @@ function formatImport(code, imported, eol = "\n") {
   );
 }
 
+/**
+ * Format a named member properly (e.g. `foo` or `foo as Foo` or `type foo` or
+ * `type foo as Foo`)
+ */
+function formatNamedMember({ name, alias, comma = "" }) {
+  if (name === alias) {
+    return `${name}${comma}`;
+  }
+
+  const [nameTypePrefix, actualName] = name.split(" ");
+
+  if (nameTypePrefix === "type" && actualName.length > 0) {
+    const [, actualAlias] = alias.split(" ");
+
+    return `${nameTypePrefix} ${actualName} as ${actualAlias}${comma}`;
+  }
+
+  return `${name} as ${alias}${comma}`;
+}
+
 function formatNamedMembers(
   namedMembers,
   useMultipleLines,
@@ -290,11 +310,7 @@ function formatNamedMembers(
           const lastImport = index === namedMembers.length - 1;
           const comma = !useTrailingComma && lastImport ? "" : ",";
 
-          if (name === alias) {
-            return `${prefix}${name}${comma}` + eol;
-          }
-
-          return `${prefix}${name} as ${alias}${comma}` + eol;
+          return `${prefix}${formatNamedMember({ name, alias, comma })}${eol}`;
         })
         .join("") +
       "}"
@@ -307,15 +323,7 @@ function formatNamedMembers(
   return (
     "{" +
     space +
-    namedMembers
-      .map(({ name, alias }) => {
-        if (name === alias) {
-          return `${name}`;
-        }
-
-        return `${name} as ${alias}`;
-      })
-      .join(", ") +
+    namedMembers.map(formatNamedMember).join(", ") +
     comma +
     space +
     "}"
