@@ -11,13 +11,19 @@ jobs:
       id-token: write
       packages: write
     runs-on: ubuntu-latest
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - name: Release action
-        uses: Spendesk/common-github-actions/spendesk-release@main
+      - uses: actions/checkout@v3
+      - id: setup-node
+        uses: actions/setup-node@v3
         with:
-          skip-checks: false
-          dual-publish: false
-          use-semantic-release: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          node-version-file: package.json
+          registry-url: https://npm.pkg.github.com
+      - id: build-and-publish
+        shell: bash
+        run: |
+          npm ci
+          npm test
+          npm publish
