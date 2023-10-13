@@ -1,6 +1,6 @@
 {
   "name": "@spendesk/prettier-plugin-import-sort",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Prettier plugin to pass javascript and typescript through import-sort",
   "main": "src/index.js",
   "repository": {
