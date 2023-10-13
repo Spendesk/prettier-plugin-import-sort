@@ -1,0 +1,23 @@
+name: Release
+on:
+  push:
+    tags:
+      - v*
+jobs:
+  release:
+    permissions:
+      contents: write
+      pull-requests: write
+      id-token: write
+      packages: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Release action
+        uses: Spendesk/common-github-actions/spendesk-release@main
+        with:
+          skip-checks: false
+          dual-publish: false
+          use-semantic-release: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
